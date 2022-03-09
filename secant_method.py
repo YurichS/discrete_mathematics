@@ -1,7 +1,8 @@
 # e = 10**(-4)
-# x*x - cos(x) = 0 [0.7;0.8]
+# x*x - cos(x) = 0
+# [0.7;0.8]
 
-from math import cos, sin
+from math import cos
 
 
 def f(x):
