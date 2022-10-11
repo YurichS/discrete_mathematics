@@ -8,21 +8,45 @@ def mod_reverse(number, module):
     return "Don't exists"
 
 
+def slope(numerator, denominator, p):
+    if numerator % denominator != 0:
+        if numerator < 0 and denominator < 0:
+            numerator = abs(numerator)
+            denominator = abs(denominator)
+        denominator = mod_reverse(denominator, p)
+        s = (numerator * denominator) % p
+    else:
+        s = (numerator / denominator) % p
+    return s
+
+
+def even_point(x, y, a, b, p):
+    numerator = 3 * x * x + a
+    denominator = 2 * y
+    s = slope(numerator, denominator, p)
+    x_j = (s * s - 2 * x) % p
+    y_j = (s * (x - x_j) - y) % p
+    return x_j, y_j
+
+
+def odd_point(x1, y1, x2, y2, p):
+    numerator = y2 - y1
+    denominator = x2 - x1
+    s = slope(numerator, denominator, p)
+    x_j = (s * s - x1 - x2) % p
+    y_j = (s * (x1 - x_j) - y1) % p
+    return x_j, y_j
+
+
 def point_order(x, y, a, b, p):
-    m = ceil(sqrt(p + 1 + 2 * sqrt(p))) + 1
+    m = ceil(sqrt(p + 1 + 2 * sqrt(p)))
     P = [(x, y)]
-    for j in range(2, m):
-        if j % 2 == 0:
-            numerator = 3 * x * x + a
-            denominator = 2 * y
+    for j in range(1, m):
+        if j % 2 != 0:
+            P.append(even_point(P[j // 2][0], P[j // 2][1], a, b, p))
         else:
-            numerator = P[0][1] - P[j - 1][1]
-            denominator = P[0][0] - P[j - 1][0]
-        if not numerator % denominator:
-            if numerator < 0 and denominator < 0:
-                numerator = abs(numerator)
-                denominator = abs(denominator)
-            denominator = mod_reverse(denominator, p)
-            s = (numerator * denominator) % p
-        else:
-            s = (numerator / denominator) % p
+            P.append(odd_point(P[j - 1][0], P[j - 1][1], P[0][0], P[0][1], p))
+    return P
+
+
+print(point_order(2, 2, 1, 1, 7))
