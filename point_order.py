@@ -50,10 +50,13 @@ def point_order(x, y, a, b, p):
     i = 1
     q = alpha
     while q not in P:
-        q = odd_point(q[0], q[1], alpha[0], alpha[1], p)
+        if q[0] != alpha[0]:
+            q = odd_point(q[0], q[1], alpha[0], alpha[1], p)
+        else:
+            q = even_point(q[0], q[1], a, b, p)
         i += 1
     n = m * i + P.index(q) + 1
     return n
 
 
-print(point_order(0, 1, 1, 1, 3))
+print(point_order(0, 1, 3, 1, 7))
