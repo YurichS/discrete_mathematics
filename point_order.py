@@ -46,7 +46,14 @@ def point_order(x, y, a, b, p):
             P.append(even_point(P[j // 2][0], P[j // 2][1], a, b, p))
         else:
             P.append(odd_point(P[j - 1][0], P[j - 1][1], P[0][0], P[0][1], p))
-    return P
+    alpha = (P[m - 1][0] % p, (-1 * P[m - 1][1]) % p)
+    i = 1
+    q = alpha
+    while q not in P:
+        q = odd_point(q[0], q[1], alpha[0], alpha[1], p)
+        i += 1
+    n = m * i + P.index(q) + 1
+    return n
 
 
-print(point_order(2, 2, 1, 1, 7))
+print(point_order(0, 1, 1, 1, 3))
