@@ -1,4 +1,5 @@
-from pandas
+from pandas import DataFrame
+
 def mod_reverse(number, module):
     for i in range(1000):
         if number * i % module == 1:
@@ -21,10 +22,12 @@ def slope(numerator, denominator, p):
 def main(x, y, a, b, p):
     i = 2
     P = (x, y)
+    points = [P]
     print(f"n=1")
     print(f"P({x}, {y})")
     numerator = 3 * x * x + a
     denominator = 2 * y
+    print("n = 2")
     print(f"s = (3*{x}^2+{a})/(2*{y})")
     if denominator == 0:
         return i
@@ -35,9 +38,9 @@ def main(x, y, a, b, p):
         y_j = (s * (x - x_j) - y) % p
         print(f"x = {s}^2 - 2*{x} mod {p} = {x_j}")
         print(f"y = {s}*({x}-{x_j}) - {y} mod {p} = {y_j}")
-        print("n = 2")
         Q = [x_j, y_j]
-        print(f"Q{Q}")
+        points.append(Q)
+
     while True:
         i += 1
         print(f"n={i}")
@@ -55,7 +58,9 @@ def main(x, y, a, b, p):
             print(f"y = {s}*({x}-{x_j}) - {y} mod {p} = {y_j}")
             Q[0] = x_j
             Q[1] = y_j
-            print(f"Q{Q}")
+            points.append(Q)
+    d = list(zip(range(1, i), points))
+    print(DataFrame(data=d, columns=['j', 'Q(x, y)']))
     return i
 
 
